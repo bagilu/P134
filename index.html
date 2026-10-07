@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="P134 英打快手：以落下字母訓練英打反應的網頁遊戲。">
+  <title>P134 英打快手 | Typing Blaster</title>
+  <link rel="stylesheet" href="css/app.css?v=0.100">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="lab-mark" href="https://tcubmdsbilab.github.io/P101/" target="_blank" rel="noopener">慈濟大學 經營管理學系 好玩實驗室 作品</a>
+      <div class="title-row">
+        <div>
+          <p class="project-code">P134</p>
+          <h1>英打快手 <span>Typing Blaster</span></h1>
+          <p class="subtitle">看見字母，立即輸入，守住你的基地。</p>
+        </div>
+        <p class="web-version">P134 Web Version V0.100</p>
+      </div>
+    </header>
+
+    <section class="game-card" aria-label="英打快手遊戲">
+      <div class="status-bar" aria-live="polite">
+        <div><span class="status-label">分數</span><strong id="score">0</strong></div>
+        <div><span class="status-label">難度</span><strong id="level">1</strong></div>
+        <div><span class="status-label">掉落</span><strong id="fallen-count">0 / 10</strong></div>
+        <div><span class="status-label">最高分</span><strong id="high-score">0</strong></div>
+      </div>
+
+      <div id="game-area" class="game-area" tabindex="0" aria-label="遊戲區。按下與落下字母相同的英文字母。">
+        <div class="star-field" aria-hidden="true"></div>
+        <div id="targets-layer" class="targets-layer" aria-hidden="true"></div>
+        <div id="shots-layer" class="shots-layer" aria-hidden="true"></div>
+        <div id="fallen-layer" class="fallen-layer" aria-hidden="true"></div>
+        <div class="ground" aria-hidden="true"></div>
+        <div class="ship" aria-hidden="true"><span class="ship-core"></span></div>
+        <div id="intro-panel" class="overlay-panel">
+          <p class="eyebrow">字母防衛模式</p>
+          <h2>準備起飛</h2>
+          <p>輸入與掉落字母相同的按鍵。A 和 a 視為相同；若有重複字母，會優先擊中最低的一個。</p>
+          <button id="start-button" type="button">開始遊戲</button>
+          <p class="small-note">每擊中一個字母得 1 分。累積掉落 10 個字母即結束本局。</p>
+        </div>
+        <div id="result-panel" class="overlay-panel hidden" aria-live="assertive">
+          <p class="eyebrow">Game Over</p>
+          <h2>基地已被突破</h2>
+          <div class="result-grid">
+            <p><span>本局分數</span><strong id="result-score">0</strong></p>
+            <p><span>成功消滅</span><strong id="result-destroyed">0</strong></p>
+            <p><span>掉到底部</span><strong id="result-fallen">0</strong></p>
+          </div>
+          <button id="restart-button" type="button">再玩一次</button>
+        </div>
+      </div>
+
+      <p id="game-message" class="game-message">按「開始遊戲」後，直接使用鍵盤輸入字母。</p>
+    </section>
+
+    <section class="rules" aria-label="玩法說明">
+      <h2>玩法說明 <span>How to play</span></h2>
+      <ol>
+        <li>畫面會出現由上方落下的 A–Z 字母。</li>
+        <li>輸入相同字母即可發射能量彈並消滅目標。</li>
+        <li>每 5 分升一級：字母出現更快、下降也更快。</li>
+        <li>掉落字母將堆在底部；累積 10 個即 Game Over。</li>
+      </ol>
+    </section>
+  </main>
+  <footer>本版本不使用帳號或後端資料庫；最高分僅儲存在本機瀏覽器。<br>© SBI Lab · P134 英打快手</footer>
+  <script src="js/app.js?v=0.100" defer></script>
+</body>
+</html>

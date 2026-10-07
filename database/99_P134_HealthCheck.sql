@@ -1,0 +1,2 @@
+-- P134 V0.1 uses no database objects.
+-- Health check: open index.html through a static web server and start a game.

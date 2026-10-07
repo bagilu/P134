@@ -1,0 +1,3 @@
+-- P134 V0.1 is a fully local, no-account browser game.
+-- No Supabase objects, permissions, policies, or grants are required.
+-- Deliberately contains no cross-project or schema-wide SQL.
