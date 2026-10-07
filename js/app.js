@@ -13,7 +13,7 @@
   ui.high.textContent = savedHigh;
 
   function freshState() { return { active:false, score:0, fallen:0, targets:[], bag:[], lastLetter:'', high:savedHigh }; }
-  function difficulty() { const level = Math.floor(state.score / 5) + 1; return { level, spawnMs: Math.max(400, 1000 - (level - 1) * 100), fallMs: Math.max(2500, 5500 - (level - 1) * 500) }; }
+  function difficulty() { const level = Math.floor(state.score / 5) + 1; return { level, spawnMs: Math.max(450, 1000 - (level - 1) * 150), fallMs: Math.max(4500, 5700 - (level - 1) * 200) }; }
   function drawNextLetter() {
     if (!state.bag.length) { state.bag = [...LETTERS].sort(() => Math.random() - .5); if (state.bag[state.bag.length - 1] === state.lastLetter) [state.bag[0],state.bag[state.bag.length - 1]] = [state.bag[state.bag.length - 1],state.bag[0]]; }
     const letter = state.bag.pop(); state.lastLetter = letter; return letter;
@@ -31,9 +31,15 @@
   }
   function fireAt(target) {
     const shot = document.createElement('div'); shot.className = 'shot'; ui.shots.append(shot);
-    const targetY = target.y + 27; const startY = ui.area.clientHeight - 75; const duration = 170;
+    const startX = ui.area.clientWidth / 2, startY = ui.area.clientHeight - 75;
+    const endX = target.x / 100 * ui.area.clientWidth, endY = target.y + 27;
+    // A cubic Bézier path makes the energy bolt lift off first, then curve into its target.
+    const c1X = startX, c1Y = startY - 130;
+    const c2X = endX + (startX - endX) * .35, c2Y = endY + 82;
+    const duration = Math.min(360, Math.max(220, Math.hypot(endX-startX,endY-startY) * .52));
     const started = performance.now();
-    const animate = now => { const progress = Math.min(1,(now-started)/duration); shot.style.bottom = `${52 + (startY-targetY)*progress}px`; if (progress < 1) requestAnimationFrame(animate); else { shot.remove(); target.el.classList.add('hit'); setTimeout(() => target.el.remove(), 280); } };
+    const point = (a,b,c,d,t) => (1-t)**3*a + 3*(1-t)**2*t*b + 3*(1-t)*t*t*c + t**3*d;
+    const animate = now => { const t = Math.min(1,(now-started)/duration); const x = point(startX,c1X,c2X,endX,t), y = point(startY,c1Y,c2Y,endY,t); const nx = point(startX,c1X,c2X,endX,Math.min(1,t+.015)), ny = point(startY,c1Y,c2Y,endY,Math.min(1,t+.015)); const angle = Math.atan2(ny-y,nx-x) * 180 / Math.PI + 90; shot.style.left = `${x}px`; shot.style.top = `${y}px`; shot.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`; if (t < 1) requestAnimationFrame(animate); else { shot.remove(); target.el.classList.add('hit'); setTimeout(() => target.el.remove(), 280); } };
     requestAnimationFrame(animate);
   }
   function handleKey(event) {

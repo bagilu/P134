@@ -9,7 +9,11 @@
 
 ## Difficulty
 
-Difficulty increases every five points. At level 1, a target is generated every 1.0 second and needs about 5.5 seconds to fall. Each level reduces generation interval by 0.1 second and fall duration by 0.5 second. Limits are 0.4 seconds and 2.5 seconds, respectively.
+Difficulty increases every five points. At level 1, a target is generated every 1.0 second and needs about 5.7 seconds to fall. Each level reduces generation interval by 0.15 second, so more letters are simultaneously visible. Fall duration is only reduced by 0.2 second per level, maintaining a gentler reaction window. Limits are 0.45 seconds and 4.5 seconds, respectively.
+
+## Visual feedback
+
+The energy bolt follows a curved Bézier trajectory: it first rises from the ship and then turns smoothly towards the selected target.
 
 ## Fair randomness
 
