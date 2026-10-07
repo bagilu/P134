@@ -4,21 +4,21 @@
   const MAX_FALLEN = 10;
   const ui = {
     area: document.querySelector('#game-area'), targets: document.querySelector('#targets-layer'), shots: document.querySelector('#shots-layer'), fallen: document.querySelector('#fallen-layer'),
-    score: document.querySelector('#score'), level: document.querySelector('#level'), fallenCount: document.querySelector('#fallen-count'), high: document.querySelector('#high-score'), message: document.querySelector('#game-message'),
-    intro: document.querySelector('#intro-panel'), result: document.querySelector('#result-panel'), start: document.querySelector('#start-button'), restart: document.querySelector('#restart-button'),
+    score: document.querySelector('#score'), level: document.querySelector('#level'), mode: document.querySelector('#mode-label'), fallenCount: document.querySelector('#fallen-count'), high: document.querySelector('#high-score'), message: document.querySelector('#game-message'),
+    intro: document.querySelector('#intro-panel'), result: document.querySelector('#result-panel'), start: document.querySelector('#start-button'), restart: document.querySelector('#restart-button'), beginner: document.querySelector('#beginner-button'), advanced: document.querySelector('#advanced-button'),
     resultScore: document.querySelector('#result-score'), resultDestroyed: document.querySelector('#result-destroyed'), resultFallen: document.querySelector('#result-fallen')
   };
-  let state, frameId, lastFrame, lastSpawn;
+  let state, frameId, lastFrame, lastSpawn, selectedMode = 'beginner';
   const savedHigh = Number(localStorage.getItem('P134-high-score') || 0);
   ui.high.textContent = savedHigh;
 
-  function freshState() { return { active:false, score:0, fallen:0, targets:[], bag:[], lastLetter:'', high:savedHigh }; }
-  function difficulty() { const level = Math.floor(state.score / 5) + 1; return { level, spawnMs: Math.max(450, 1000 - (level - 1) * 150), fallMs: Math.max(4500, 5700 - (level - 1) * 200) }; }
+  function freshState() { return { active:false, score:0, fallen:0, targets:[], bag:[], lastLetter:'', high:savedHigh, mode:selectedMode }; }
+  function difficulty() { const level = Math.floor(state.score / 5) + 1; if (state.mode === 'beginner') return { level, spawnMs: Math.max(650, 1300 - (level - 1) * 110), fallMs: Math.max(5700, 7200 - (level - 1) * 150) }; return { level, spawnMs: Math.max(450, 1000 - (level - 1) * 150), fallMs: Math.max(4500, 5700 - (level - 1) * 200) }; }
   function drawNextLetter() {
     if (!state.bag.length) { state.bag = [...LETTERS].sort(() => Math.random() - .5); if (state.bag[state.bag.length - 1] === state.lastLetter) [state.bag[0],state.bag[state.bag.length - 1]] = [state.bag[state.bag.length - 1],state.bag[0]]; }
     const letter = state.bag.pop(); state.lastLetter = letter; return letter;
   }
-  function updateHud() { const d = difficulty(); ui.score.textContent = state.score; ui.level.textContent = d.level; ui.fallenCount.textContent = `${state.fallen} / ${MAX_FALLEN}`; ui.high.textContent = state.high; }
+  function updateHud() { const d = difficulty(); ui.score.textContent = state.score; ui.level.textContent = d.level; ui.mode.textContent = state.mode === 'beginner' ? '新手' : '進階'; ui.fallenCount.textContent = `${state.fallen} / ${MAX_FALLEN}`; ui.high.textContent = state.high; }
   function spawnTarget(now) {
     const d = difficulty(); const letter = drawNextLetter(); let x, tries = 0;
     do { x = 8 + Math.random() * 84; tries++; } while (tries < 8 && state.targets.some(t => Math.abs(t.x - x) < 9 && t.y < 20));
@@ -57,5 +57,6 @@
   }
   function startGame() { cancelAnimationFrame(frameId); state = freshState(); ui.targets.replaceChildren(); ui.shots.replaceChildren(); ui.fallen.replaceChildren(); ui.intro.classList.add('hidden'); ui.result.classList.add('hidden'); state.active = true; lastFrame = performance.now(); lastSpawn = lastFrame - 1000; updateHud(); ui.message.textContent = '開始！直接以鍵盤輸入落下字母。'; ui.area.focus(); frameId = requestAnimationFrame(tick); }
   function endGame() { state.active = false; cancelAnimationFrame(frameId); ui.resultScore.textContent = state.score; ui.resultDestroyed.textContent = state.score; ui.resultFallen.textContent = state.fallen; ui.result.classList.remove('hidden'); ui.message.textContent = `本局結束：${state.fallen} 個字母掉到底部。`; }
-  state = freshState(); updateHud(); ui.start.addEventListener('click', startGame); ui.restart.addEventListener('click', startGame); window.addEventListener('keydown', handleKey);
+  function selectMode(mode) { selectedMode = mode; ui.beginner.classList.toggle('selected', mode === 'beginner'); ui.advanced.classList.toggle('selected', mode === 'advanced'); if (!state.active) { state.mode = mode; updateHud(); } }
+  state = freshState(); updateHud(); ui.beginner.addEventListener('click', () => selectMode('beginner')); ui.advanced.addEventListener('click', () => selectMode('advanced')); ui.start.addEventListener('click', startGame); ui.restart.addEventListener('click', startGame); window.addEventListener('keydown', handleKey);
 })();

@@ -11,6 +11,7 @@ Deploy the contents of this folder to GitHub Pages, or open it through any stati
 - A-Z targets; uppercase and lowercase input are treated equally.
 - Shuffled-letter-bag randomness, preventing repetition within each set of 26 letters.
 - More simultaneous targets every five points, while fall speed increases only gradually to keep the game approachable.
+- Beginner / Advanced mode selector: Beginner starts with fewer and slower targets.
 - Curved, target-seeking energy bolts for visible confirmation of each hit.
 - Lowest matching letter is selected when duplicate targets are on screen.
 - Fallen letters remain visually at the base; 10 fallen letters cause Game Over.
@@ -19,7 +20,7 @@ Deploy the contents of this folder to GitHub Pages, or open it through any stati
 ## SBI-P-SDS v3.2 compliance
 
 - Static HTML/CSS/JavaScript only; no unnecessary framework or build chain.
-- Visible web version and synchronized CSS/JS cache-busting version: `V0.101`.
+- Visible web version and synchronized CSS/JS cache-busting version: `V0.102`.
 - `config-sample.js` only; no `config.js`, secret, or service-role key is included.
 - `database/` is supplied for delivery consistency. It deliberately contains no SQL mutations because V0.1 has no backend and no project data.
 - No SQL, database object, policy, Storage bucket, RPC, or permission touches another P project.
