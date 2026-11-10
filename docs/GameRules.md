@@ -1,4 +1,4 @@
-# P134 V0.1 Game Rules
+# P134 V0.103 Game Rules
 
 ## Core rules
 
@@ -23,3 +23,7 @@ The energy bolt follows a curved Bézier trajectory: it first rises from the shi
 ## Fair randomness
 
 Letters are delivered from a shuffled 26-letter bag. No letter repeats within a bag, and the first item of a new bag cannot equal the final item of the previous bag. Horizontal positions are randomized with an attempt to avoid newly overlapping targets.
+
+## Anonymous site analytics
+
+The public homepage loads the P101 centralized anonymous analytics script once. It is separate from gameplay: a blocked, failed, or slow analytics request must not prevent the game from loading or playing. The game itself stores only the local high score in the visitor's own browser. The analytics notice explains that the website does not intentionally collect names, Email addresses, raw IP addresses, or complete referrer URLs.
