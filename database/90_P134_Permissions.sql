@@ -1,3 +1,5 @@
--- P134 V0.1 is a fully local, no-account browser game.
+-- P134 V0.103 is a fully local, no-account browser game.
 -- No Supabase objects, permissions, policies, or grants are required.
 -- Deliberately contains no cross-project or schema-wide SQL.
+-- P101 centralized anonymous analytics is an SDS v3.7-approved shared-platform exception;
+-- P134 does not create, grant, or modify any P101 analytics object.
