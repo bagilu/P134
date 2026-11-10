@@ -1,2 +1,4 @@
 -- P134 V0.1 uses no database objects.
 -- Health check: open index.html through a static web server and start a game.
+-- SDS v3.7 deployment check: verify the P101 analytics script loads once with data-project="P134";
+-- verify that blocking the script does not affect gameplay.
